@@ -22,6 +22,17 @@
         .transition-transform {
             transition: transform 0.3s ease-in-out;
         }
+        /* Style untuk Hero Section dan Animasi Ketik */
+        #hero-headline::after {
+            content: '|';
+            display: inline-block;
+            animation: blink 0.7s infinite;
+            color: white;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -71,124 +82,127 @@
 
 
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
-        <!-- Hero Section -->
-        <section class="text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                Supercharge Kreativitas Anda dengan Alat AI
-            </h1>
-            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
-                Kumpulan alat bantu AI gratis yang dirancang untuk membantu para kreator, desainer, dan penulis di Indonesia. Dimulai dengan Generator Prompt Video yang canggih.
-            </p>
-        </section>
-
-        <!-- Tools Section -->
-        <section class="mt-16">
-            <h2 class="text-3xl font-bold text-center text-gray-800">Pilih Alat Anda</h2>
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Kartu 1: Generator Prompt (Aktif) -->
-                <a href="./generator.html" class="block bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
-                    <div class="flex items-center justify-center h-16 w-16 bg-blue-500 text-white rounded-full mx-auto">
-                        <i class="fas fa-film text-2xl"></i>
-                    </div>
-                    <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Generator Prompt Video</h3>
-                    <p class="mt-2 text-gray-600 text-center">
-                        Buat prompt profesional untuk Google Veo, Sora, dan model video AI lainnya secara otomatis.
-                    </p>
-                    <div class="mt-6 text-center">
-                        <span class="bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-full">Buka Alat</span>
-                    </div>
-                </a>
-
-                <!-- Kartu 2: Fitur Baru (Contoh - Nonaktif) -->
-                <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
-                     <div class="flex items-center justify-center h-16 w-16 bg-gray-400 text-white rounded-full mx-auto">
-                        <i class="fas fa-pen-nib text-2xl"></i>
-                    </div>
-                    <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Penulis Cerita AI</h3>
-                    <p class="mt-2 text-gray-600 text-center">
-                        Buat kerangka cerita atau naskah pendek lengkap dengan dialog dan deskripsi adegan.
-                    </p>
-                    <div class="mt-6 text-center">
-                        <span class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-full">Segera Hadir</span>
-                    </div>
-                </div>
-
-                <!-- Kartu 3: Fitur Baru (Contoh - Nonaktif) -->
-                <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
-                     <div class="flex items-center justify-center h-16 w-16 bg-gray-400 text-white rounded-full mx-auto">
-                        <i class="fas fa-image text-2xl"></i>
-                    </div>
-                    <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Peningkat Kualitas Gambar</h3>
-                    <p class="mt-2 text-gray-600 text-center">
-                        Tingkatkan resolusi dan perbaiki detail pada gambar Anda menggunakan kekuatan AI.
-                    </p>
-                    <div class="mt-6 text-center">
-                        <span class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-full">Segera Hadir</span>
-                    </div>
-                </div>
-
+    <main>
+        <!-- ### HERO SECTION BARU ### -->
+        <section class="relative h-[60vh] bg-cover bg-center text-white" style="background-image: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop');">
+            <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+            <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-6">
+                <h1 id="hero-headline" class="text-4xl md:text-5xl font-extrabold leading-tight text-shadow-lg"></h1>
+                <p class="mt-4 text-lg text-gray-200 max-w-2xl mx-auto">
+                    Kumpulan alat bantu AI gratis yang dirancang untuk membantu para kreator, desainer, dan penulis di Indonesia. Dimulai dengan Generator Prompt Video yang canggih.
+                </p>
             </div>
         </section>
+        <!-- ### AKHIR HERO SECTION ### -->
 
-        <!-- ### FAQ SECTION BARU (DROPDOWN) ### -->
-        <section class="mt-20">
-            <h2 class="text-3xl font-bold text-center text-gray-800">Pertanyaan yang Sering Diajukan (FAQ)</h2>
-            <div id="faq-container" class="mt-8 max-w-3xl mx-auto space-y-4">
-                
-                <div class="bg-white rounded-lg shadow-md">
-                    <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
-                        <h3 class="font-bold text-lg text-gray-900">Apakah alat ini benar-benar gratis?</h3>
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden p-6 pt-0 text-gray-600">
-                        <p>
-                            Ya, semua alat yang tersedia di sini dapat Anda gunakan sepenuhnya secara gratis. Website ini didukung oleh iklan untuk menutupi biaya operasional.
+        <div class="container mx-auto px-6 py-12">
+            <!-- Tools Section -->
+            <section class="mt-8">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Pilih Alat Anda</h2>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Kartu 1: Generator Prompt (Aktif) -->
+                    <a href="./generator.html" class="block bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 bg-blue-500 text-white rounded-full mx-auto">
+                            <i class="fas fa-film text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Generator Prompt Video</h3>
+                        <p class="mt-2 text-gray-600 text-center">
+                            Buat prompt profesional untuk Google Veo, Sora, dan model video AI lainnya secara otomatis.
                         </p>
-                    </div>
-                </div>
+                        <div class="mt-6 text-center">
+                            <span class="bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-full">Buka Alat</span>
+                        </div>
+                    </a>
 
-                <div class="bg-white rounded-lg shadow-md">
-                    <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
-                        <h3 class="font-bold text-lg text-gray-900">Mengapa saya membutuhkan API Key dari Google?</h3>
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden p-6 pt-0 text-gray-600">
-                        <p>
-                            Generator prompt kami menggunakan teknologi dari Google Gemini untuk menganalisis gambar. API Key berfungsi sebagai "kunci" pribadi Anda untuk mengakses teknologi tersebut. Anda bisa membuatnya secara gratis di Google AI Studio.
+                    <!-- Kartu 2: Fitur Baru (Contoh - Nonaktif) -->
+                    <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
+                         <div class="flex items-center justify-center h-16 w-16 bg-gray-400 text-white rounded-full mx-auto">
+                            <i class="fas fa-pen-nib text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Penulis Cerita AI</h3>
+                        <p class="mt-2 text-gray-600 text-center">
+                            Buat kerangka cerita atau naskah pendek lengkap dengan dialog dan deskripsi adegan.
                         </p>
+                        <div class="mt-6 text-center">
+                            <span class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-full">Segera Hadir</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-white rounded-lg shadow-md">
-                    <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
-                        <h3 class="font-bold text-lg text-gray-900">Apakah API Key saya aman?</h3>
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden p-6 pt-0 text-gray-600">
-                        <p>
-                            Sangat aman. API Key Anda hanya digunakan untuk berkomunikasi langsung dari browser Anda ke server Google. Kunci tersebut tidak pernah disimpan atau dikirim ke server kami.
+                    <!-- Kartu 3: Fitur Baru (Contoh - Nonaktif) -->
+                    <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
+                         <div class="flex items-center justify-center h-16 w-16 bg-gray-400 text-white rounded-full mx-auto">
+                            <i class="fas fa-image text-2xl"></i>
+                        </div>
+                        <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Peningkat Kualitas Gambar</h3>
+                        <p class="mt-2 text-gray-600 text-center">
+                            Tingkatkan resolusi dan perbaiki detail pada gambar Anda menggunakan kekuatan AI.
                         </p>
+                        <div class="mt-6 text-center">
+                            <span class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-full">Segera Hadir</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="bg-white rounded-lg shadow-md">
-                    <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
-                        <h3 class="font-bold text-lg text-gray-900">Model AI apa saja yang didukung oleh generator ini?</h3>
-                        <i class="fas fa-chevron-down transition-transform"></i>
-                    </button>
-                    <div class="faq-answer hidden p-6 pt-0 text-gray-600">
-                        <p>
-                            Meskipun dioptimalkan untuk Google Veo, prompt yang dihasilkan memiliki format standar yang dapat bekerja dengan baik pada model video AI lainnya seperti Sora dari OpenAI, Pika Labs, dan Runway ML.
-                        </p>
+                </div>
+            </section>
+
+            <!-- ### FAQ SECTION BARU (DROPDOWN) ### -->
+            <section class="mt-20">
+                <h2 class="text-3xl font-bold text-center text-gray-800">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+                <div id="faq-container" class="mt-8 max-w-3xl mx-auto space-y-4">
+                    
+                    <div class="bg-white rounded-lg shadow-md">
+                        <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah alat ini benar-benar gratis?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden p-6 pt-0 text-gray-600">
+                            <p>
+                                Ya, semua alat yang tersedia di sini dapat Anda gunakan sepenuhnya secara gratis. Website ini didukung oleh iklan untuk menutupi biaya operasional.
+                            </p>
+                        </div>
                     </div>
+
+                    <div class="bg-white rounded-lg shadow-md">
+                        <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
+                            <h3 class="font-bold text-lg text-gray-900">Mengapa saya membutuhkan API Key dari Google?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden p-6 pt-0 text-gray-600">
+                            <p>
+                                Generator prompt kami menggunakan teknologi dari Google Gemini untuk menganalisis gambar. API Key berfungsi sebagai "kunci" pribadi Anda untuk mengakses teknologi tersebut. Anda bisa membuatnya secara gratis di Google AI Studio.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md">
+                        <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah API Key saya aman?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden p-6 pt-0 text-gray-600">
+                            <p>
+                                Sangat aman. API Key Anda hanya digunakan untuk berkomunikasi langsung dari browser Anda ke server Google. Kunci tersebut tidak pernah disimpan atau dikirim ke server kami.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md">
+                        <button class="faq-question flex justify-between items-center w-full p-6 text-left focus:outline-none">
+                            <h3 class="font-bold text-lg text-gray-900">Model AI apa saja yang didukung oleh generator ini?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="faq-answer hidden p-6 pt-0 text-gray-600">
+                            <p>
+                                Meskipun dioptimalkan untuk Google Veo, prompt yang dihasilkan memiliki format standar yang dapat bekerja dengan baik pada model video AI lainnya seperti Sora dari OpenAI, Pika Labs, dan Runway ML.
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
-
-            </div>
-        </section>
-        <!-- ### AKHIR FAQ SECTION ### -->
-
+            </section>
+            <!-- ### AKHIR FAQ SECTION ### -->
+        </div>
     </main>
 
     <!-- Footer -->
@@ -201,24 +215,45 @@
     </footer>
     
     <script>
-        // Script untuk toggle menu mobile
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Script untuk toggle menu mobile
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Script untuk toggle FAQ
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        faqQuestions.forEach(button => {
-            button.addEventListener('click', () => {
-                const answer = button.nextElementSibling;
-                const icon = button.querySelector('i');
-                
-                answer.classList.toggle('hidden');
-                icon.classList.toggle('rotate-180');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
+
+            // Script untuk toggle FAQ
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answer = button.nextElementSibling;
+                    const icon = button.querySelector('i');
+                    
+                    answer.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            // Script untuk animasi ketik
+            const headlineElement = document.getElementById('hero-headline');
+            const textToType = "Supercharge Kreativitas Anda dengan Alat AI";
+            let i = 0;
+            headlineElement.innerHTML = ""; // Kosongkan elemen sebelum memulai
+
+            function typeWriter() {
+                if (i < textToType.length) {
+                    headlineElement.innerHTML += textToType.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 80); // Kecepatan ketik (ms)
+                } else {
+                    // Hapus kursor setelah selesai mengetik
+                    headlineElement.style.borderRight = 'none';
+                    headlineElement.style.animation = 'none'; // Hentikan animasi blink
+                }
+            }
+            typeWriter();
         });
     </script>
 
