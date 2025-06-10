@@ -57,7 +57,7 @@
                             <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
                         <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Penulis Cerita (Segera)</a>
+                            <a href="./story-writer.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Penulis Cerita</a>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Peningkat Gambar (Segera)</a>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
             <div id="mobile-menu" class="hidden md:hidden mt-3">
                 <a href="./index.html" class="block py-2 px-4 text-sm bg-blue-50 text-blue-600 font-bold rounded">Beranda</a>
                 <a href="./generator.html" class="block py-2 px-4 text-sm text-gray-800 hover:bg-blue-50 rounded">Generator Prompt</a>
-                <a href="#" class="block py-2 px-4 text-sm text-gray-500 cursor-not-allowed">Penulis Cerita (Segera)</a>
+                <a href="./story-writer.html" class="block py-2 px-4 text-sm text-gray-800 hover:bg-blue-50 rounded">Penulis Cerita</a>
                 <a href="#" class="block py-2 px-4 text-sm text-gray-500 cursor-not-allowed">Peningkat Gambar (Segera)</a>
             </div>
         </nav>
@@ -115,9 +115,9 @@
                         </div>
                     </a>
 
-                    <!-- Kartu 2: Fitur Baru (Contoh - Nonaktif) -->
-                    <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
-                         <div class="flex items-center justify-center h-16 w-16 bg-gray-400 text-white rounded-full mx-auto">
+                    <!-- Kartu 2: Penulis Cerita AI (Sekarang Aktif) -->
+                    <a href="./story-writer.html" class="block bg-white rounded-lg shadow-lg p-8 transform hover:-translate-y-2 transition-transform duration-300">
+                         <div class="flex items-center justify-center h-16 w-16 bg-green-500 text-white rounded-full mx-auto">
                             <i class="fas fa-pen-nib text-2xl"></i>
                         </div>
                         <h3 class="mt-6 text-xl font-bold text-center text-gray-900">Penulis Cerita AI</h3>
@@ -125,9 +125,9 @@
                             Buat kerangka cerita atau naskah pendek lengkap dengan dialog dan deskripsi adegan.
                         </p>
                         <div class="mt-6 text-center">
-                            <span class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-full">Segera Hadir</span>
+                            <span class="bg-green-100 text-green-800 font-semibold py-2 px-4 rounded-full">Buka Alat</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Kartu 3: Fitur Baru (Contoh - Nonaktif) -->
                     <div class="block bg-white rounded-lg shadow-lg p-8 opacity-50 cursor-not-allowed">
@@ -249,8 +249,8 @@
                     setTimeout(typeWriter, 80); // Kecepatan ketik (ms)
                 } else {
                     // Hapus kursor setelah selesai mengetik
-                    headlineElement.style.borderRight = 'none';
-                    headlineElement.style.animation = 'none'; // Hentikan animasi blink
+                    const cursor = headlineElement.querySelector('span');
+                    if (cursor) cursor.remove();
                 }
             }
             typeWriter();
