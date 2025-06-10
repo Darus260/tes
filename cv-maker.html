@@ -147,7 +147,7 @@
                     </div>
 
                      <div class="flex justify-center pt-4">
-                        <button id="generate-cv-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg">
+                        <button id="generate-cv-btn" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg flex items-center justify-center">
                             <i class="fas fa-cogs mr-2"></i> Buat CV Sekarang
                         </button>
                     </div>
@@ -231,14 +231,12 @@
             educationList.appendChild(newItem);
         });
 
-        // Remove item logic
         document.addEventListener('click', function(e) {
             if (e.target && e.target.classList.contains('remove-btn')) {
                 e.target.parentElement.remove();
             }
         });
         
-        // Template selection
         templateOptions.addEventListener('click', (e) => {
             const card = e.target.closest('.template-card');
             if (!card) return;
@@ -252,77 +250,49 @@
         downloadPdfBtn.addEventListener('click', downloadPDF);
 
         async function generateCV() {
-            openRandomAd(adLinks);
+          //  openRandomAd(adLinks);
 
-            const fullName = document.getElementById('fullName').value;
-            if (!fullName) {
+            if (!document.getElementById('fullName').value) {
                 Swal.fire('Input Tidak Lengkap', 'Nama Lengkap wajib diisi.', 'warning');
                 return;
             }
-
-            Swal.fire({
-                title: 'AI Sedang Menyusun CV Anda...',
-                html: 'Mohon tunggu sejenak, ini mungkin memerlukan waktu.',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            });
-
-            // Kumpulkan data
-            const personalData = `
-                Nama: ${fullName}
-                Email: ${document.getElementById('email').value}
-                Telepon: ${document.getElementById('phone').value}
-                LinkedIn: ${document.getElementById('linkedin').value}
-                Ringkasan Profesional: ${document.getElementById('summary').value}
-            `;
-
-            let experienceData = '';
-            document.querySelectorAll('.experience-item').forEach(item => {
-                const title = item.querySelector('.experience-title').value;
-                const company = item.querySelector('.experience-company').value;
-                const dates = item.querySelector('.experience-dates').value;
-                const desc = item.querySelector('.experience-desc').value;
-                if (title) {
-                    experienceData += `- Posisi: ${title}, Perusahaan: ${company}, Periode: ${dates}, Deskripsi: ${desc}\n`;
-                }
-            });
-
-            let educationData = '';
-            document.querySelectorAll('.education-item').forEach(item => {
-                const school = item.querySelector('.education-school').value;
-                const degree = item.querySelector('.education-degree').value;
-                const year = item.querySelector('.education-year').value;
-                if (school) {
-                    educationData += `- Institusi: ${school}, Jurusan/Gelar: ${degree}, Tahun: ${year}\n`;
-                }
-            });
             
+            generateCvBtn.disabled = true;
+            generateCvBtn.innerHTML = `<span class="loader"></span> Membuat...`;
+            downloadBtnContainer.classList.add('hidden');
+            
+            const personalData = `Nama: ${document.getElementById('fullName').value}, Email: ${document.getElementById('email').value}, Telepon: ${document.getElementById('phone').value}, LinkedIn: ${document.getElementById('linkedin').value}, Ringkasan Profesional: ${document.getElementById('summary').value}`;
+            let experienceData = Array.from(document.querySelectorAll('.experience-item')).map(item => {
+                const title = item.querySelector('.experience-title').value;
+                if (!title) return null;
+                return `- Posisi: ${title}, Perusahaan: ${item.querySelector('.experience-company').value}, Periode: ${item.querySelector('.experience-dates').value}, Deskripsi: ${item.querySelector('.experience-desc').value}`;
+            }).filter(Boolean).join('\n');
+            let educationData = Array.from(document.querySelectorAll('.education-item')).map(item => {
+                const school = item.querySelector('.education-school').value;
+                 if (!school) return null;
+                return `- Institusi: ${school}, Jurusan/Gelar: ${item.querySelector('.education-degree').value}, Tahun: ${item.querySelector('.education-year').value}`;
+            }).filter(Boolean).join('\n');
             const skillsData = document.getElementById('skills').value;
-
-            // Buat prompt untuk AI
+            
             const prompt = `
             Tugas Anda adalah membuat Curriculum Vitae (CV) profesional dalam format HTML, menggunakan Tailwind CSS. Berdasarkan data pengguna di bawah, susun CV yang rapi, terstruktur, dan mudah dibaca.
             
             Gunakan gaya template: **${selectedTemplate}**.
-            - **Profesional**: Tampilan klasik, bersih, dan formal. Gunakan font sans-serif seperti Arial atau Helvetica. Fokus pada keterbacaan. Judul seksi menggunakan \`border-b-2 pb-1 mb-3\`.
-            - **Modern**: Tampilan minimalis dengan sentuhan warna yang halus (misalnya, \`text-blue-800\` untuk judul). Mungkin menggunakan layout dua kolom dengan \`flex\` atau \`grid\`.
-            - **Kreatif**: Lebih berani dalam penggunaan warna (misalnya, \`bg-teal-500 text-white\` untuk header) dan layout. Mungkin menyertakan ikon Font Awesome di samping informasi kontak.
+            - **Profesional**: Tampilan klasik, bersih, dan formal. Gunakan font sans-serif seperti Arial. Judul seksi menggunakan \`border-b-2 pb-1 mb-3\`.
+            - **Modern**: Tampilan minimalis dengan warna halus (misal, \`text-blue-800\` untuk judul). Mungkin menggunakan layout dua kolom.
+            - **Kreatif**: Layout lebih berani, bisa menggunakan warna latar untuk header (misal, \`bg-teal-500 text-white\`).
 
             PERSYARATAN WAJIB:
-            1.  Seluruh output HARUS berupa kode HTML tunggal yang siap disisipkan ke dalam \`<div>\`. Jangan sertakan tag \`<html>\`, \`<head>\`, atau \`<body>\`.
-            2.  Bungkus seluruh CV dalam satu \`div\` utama dengan padding yang cukup, contoh: \`<div class="p-8 break-words">\`. Gunakan class \`break-words\` untuk memastikan teks tidak keluar dari kontainer.
-            3.  Buat ringkasan profesional yang menarik dan persuasif dari data yang diberikan.
-            4.  Untuk setiap pengalaman kerja, ubah deskripsi menjadi 3-4 poin pencapaian (bullet points) dalam bentuk \`<ul>\` dengan class \`list-disc list-inside\` dan \`<li>\`. Gunakan kata kerja aktif.
-            5.  Pastikan semua bagian (Kontak, Ringkasan, Pengalaman, Pendidikan, Keterampilan) memiliki judul yang jelas dan diberi jarak yang cukup (misalnya, \`mb-4\` atau \`mb-6\`).
+            1.  Output HARUS berupa kode HTML lengkap untuk disisipkan ke dalam \`<div>\`. JANGAN sertakan tag \`<html>\`, \`<head>\`, atau \`<body>\`.
+            2.  Bungkus seluruh CV dalam satu \`div\` utama dengan padding yang cukup, contoh: \`<div class="p-8 break-words">\`. Class \`break-words\` sangat penting.
+            3.  Buat ringkasan profesional yang menarik dan persuasif.
+            4.  Ubah deskripsi pengalaman kerja menjadi 3-4 poin pencapaian dalam bentuk \`<ul>\` dengan class \`list-disc list-inside\`.
+            5.  Pastikan semua bagian (Kontak, Ringkasan, Pengalaman, Pendidikan, Keterampilan) memiliki judul yang jelas dan jarak yang cukup (misal, \`mb-6\`).
             
-            Berikut adalah data pengguna:
-            
-            ---DATA PENGGUNA---
+            Data Pengguna:
             Data Pribadi: ${personalData}
-            Pengalaman Kerja: 
-            ${experienceData || 'Tidak ada'}
-            Pendidikan: 
-            ${educationData || 'Tidak ada'}
+            Pengalaman Kerja: ${experienceData || 'Tidak ada'}
+            Pendidikan: ${educationData || 'Tidak ada'}
             Keterampilan: ${skillsData || 'Tidak ada'}
             `;
             
@@ -336,22 +306,23 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
-                if (!response.ok) {
-                    const errorResult = await response.json();
-                    throw new Error(errorResult.error.message || 'Gagal menghasilkan CV.');
-                }
-
                 const result = await response.json();
+
+                if (!response.ok) throw new Error(result.error?.message || 'Gagal menghasilkan CV.');
+                if (!result.candidates || result.candidates.length === 0) throw new Error('AI tidak memberikan respons yang valid. Coba lagi.');
+
                 const cvHtml = result.candidates[0].content.parts[0].text.replace(/```html|```/g, '').trim();
 
                 cvOutput.innerHTML = cvHtml;
                 downloadBtnContainer.classList.remove('hidden');
-                Swal.close();
+                Swal.fire({ icon: 'success', title: 'CV Berhasil Dibuat!' });
 
             } catch (error) {
                 console.error("Error:", error);
                 Swal.fire('Terjadi Kesalahan', `Gagal membuat CV: ${error.message}`, 'error');
+            } finally {
+                generateCvBtn.disabled = false;
+                generateCvBtn.innerHTML = `<i class="fas fa-cogs mr-2"></i> Buat CV Sekarang`;
             }
         }
 
@@ -367,16 +338,15 @@
               jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
+            Swal.fire({
+                title: 'Mempersiapkan PDF...',
+                text: 'Mohon tunggu sebentar.',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+            });
+
             html2pdf().set(opt).from(element).save().then(() => {
-                 Swal.fire({
-                      toast: true,
-                      position: 'top-end',
-                      icon: 'success',
-                      title: 'Unduhan PDF telah dimulai!',
-                      showConfirmButton: false,
-                      timer: 3000,
-                      timerProgressBar: true,
-                    });
+                 Swal.close();
             });
         }
     });
