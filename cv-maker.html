@@ -155,6 +155,14 @@
 
                 <!-- Kolom Preview CV -->
                 <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Pratinjau CV</h2>
+                        <div id="download-btn-container" class="hidden">
+                            <button id="download-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                                <i class="fas fa-download mr-2"></i>Unduh PDF
+                            </button>
+                        </div>
+                    </div>
                     <div id="cv-preview-container" class="sticky top-24 p-4 border-2 border-dashed rounded-lg min-h-[50vh] bg-gray-50 flex items-center justify-center">
                        <div id="cv-output" class="w-full h-full bg-white shadow-lg overflow-hidden">
                            <!-- Hasil CV akan ditampilkan di sini -->
@@ -163,11 +171,6 @@
                                <p class="mt-4">Pratinjau CV Anda akan muncul di sini</p>
                            </div>
                        </div>
-                    </div>
-                     <div id="download-btn-container" class="hidden text-center mt-4">
-                        <button id="download-pdf-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg">
-                            <i class="fas fa-download mr-2"></i> Unduh sebagai PDF
-                        </button>
                     </div>
                 </div>
             </div>
@@ -250,7 +253,7 @@
         downloadPdfBtn.addEventListener('click', downloadPDF);
 
         async function generateCV() {
-          //  openRandomAd(adLinks);
+           // openRandomAd(adLinks);
 
             if (!document.getElementById('fullName').value) {
                 Swal.fire('Input Tidak Lengkap', 'Nama Lengkap wajib diisi.', 'warning');
@@ -327,7 +330,7 @@
         }
 
         function downloadPDF() {
-            openRandomAd(adLinks);
+           // openRandomAd(adLinks);
             const element = document.getElementById('cv-output');
             const fullName = document.getElementById('fullName').value || 'cv';
             const opt = {
