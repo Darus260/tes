@@ -152,6 +152,7 @@
                         imageComparison.classList.remove('hidden');
                         enhanceButtonContainer.classList.remove('hidden');
                         enhancedImage.classList.add('hidden');
+                        enhancerLoader.classList.add('hidden');
                     };
                     reader.readAsDataURL(file);
                 }
@@ -163,7 +164,7 @@
                     return;
                 }
                 
-               // openRandomAd(adLinks);
+                //openRandomAd(adLinks);
                 enhancerLoader.classList.remove('hidden');
                 enhancedImage.classList.add('hidden');
                 enhanceBtn.disabled = true;
@@ -188,11 +189,14 @@
                         body: JSON.stringify(analyzePayload)
                     });
 
-                    if (!analyzeResponse.ok) throw new Error('Gagal menganalisis gambar.');
+                    if (!analyzeResponse.ok) throw new Error('Gagal menganalisis gambar. Pastikan API Gemini aktif.');
                     const analyzeResult = await analyzeResponse.json();
+                    
+                    if (!analyzeResult.candidates || analyzeResult.candidates.length === 0) {
+                        throw new Error('Analisis gambar tidak menghasilkan deskripsi. Coba gambar lain.');
+                    }
                     let detailedPrompt = analyzeResult.candidates[0].content.parts[0].text;
                     
-                    // Add photorealistic keywords to the prompt
                     detailedPrompt += ", photorealistic, 8k, ultra high resolution, sharp focus, detailed, professional photography";
                     
                     enhanceBtn.innerHTML = `<span class="loader"></span> Menciptakan ulang...`;
@@ -211,8 +215,13 @@
                         body: JSON.stringify(generatePayload)
                     });
 
-                    if (!generateResponse.ok) throw new Error('Gagal menciptakan gambar baru.');
                     const generateResult = await generateResponse.json();
+
+                    if (!generateResponse.ok) {
+                        // **FIX: Menampilkan pesan error yang lebih detail dari API**
+                        const errorMessage = generateResult.error?.message || 'Gagal menciptakan gambar baru. Coba lagi nanti.';
+                        throw new Error(errorMessage);
+                    }
                     
                     if (generateResult.predictions && generateResult.predictions[0].bytesBase64Encoded) {
                         const newImageData = `data:image/png;base64,${generateResult.predictions[0].bytesBase64Encoded}`;
@@ -223,6 +232,7 @@
                     }
                 
                 } catch (error) {
+                    console.error("Error:", error);
                     Swal.fire('Terjadi Kesalahan', error.message, 'error');
                 } finally {
                     enhancerLoader.classList.add('hidden');
