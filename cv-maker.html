@@ -28,6 +28,14 @@
             border-color: #3b82f6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
         }
+        /* Style untuk preview CV agar terlihat seperti kertas A4 */
+        #cv-output {
+            width: 100%;
+            aspect-ratio: 1 / 1.414; /* A4 aspect ratio */
+            max-height: 80vh;
+            overflow-y: auto;
+            word-wrap: break-word; /* Memastikan teks panjang turun */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -148,9 +156,9 @@
                 <!-- Kolom Preview CV -->
                 <div>
                     <div id="cv-preview-container" class="sticky top-24 p-4 border-2 border-dashed rounded-lg min-h-[50vh] bg-gray-50 flex items-center justify-center">
-                       <div id="cv-output" class="w-full h-full bg-white shadow-lg">
+                       <div id="cv-output" class="w-full h-full bg-white shadow-lg overflow-hidden">
                            <!-- Hasil CV akan ditampilkan di sini -->
-                           <div class="p-8 text-center text-gray-400">
+                           <div class="p-8 text-center text-gray-400 flex flex-col justify-center items-center h-full">
                                <i class="fas fa-file-alt text-5xl"></i>
                                <p class="mt-4">Pratinjau CV Anda akan muncul di sini</p>
                            </div>
@@ -169,7 +177,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- API KEY & ADS ---
-        const obfuscatedApiKey = 'QUl6YVN5QXpGclVkaVUwNEMwYlJVZ1MxMWhjLWVWMkIxWEtidk5N';
+        const obfuscatedApiKey = 'QUl6YVN5QlhMUnQxRGl6bEZyUUo2OGxJUURGcmMtY2lyeDFNSFRR';
         const adLinks = ['https://s.shopee.co.id/4fkJj4u69U', 'https://s.shopee.co.id/4q3jvNtSoX', 'https://s.shopee.co.id/50NA7gspTa'];
 
         function openRandomAd(links) {
@@ -244,7 +252,7 @@
         downloadPdfBtn.addEventListener('click', downloadPDF);
 
         async function generateCV() {
-           // openRandomAd(adLinks);
+            openRandomAd(adLinks);
 
             const fullName = document.getElementById('fullName').value;
             if (!fullName) {
@@ -293,18 +301,19 @@
 
             // Buat prompt untuk AI
             const prompt = `
-            Tugas Anda adalah membuat Curriculum Vitae (CV) profesional dalam format HTML. Berdasarkan data pengguna di bawah, susun CV yang rapi, terstruktur, dan mudah dibaca.
+            Tugas Anda adalah membuat Curriculum Vitae (CV) profesional dalam format HTML, menggunakan Tailwind CSS. Berdasarkan data pengguna di bawah, susun CV yang rapi, terstruktur, dan mudah dibaca.
             
             Gunakan gaya template: **${selectedTemplate}**.
-            - **Profesional**: Tampilan klasik, bersih, dan formal. Gunakan font sans-serif seperti Arial atau Helvetica. Fokus pada keterbacaan.
-            - **Modern**: Tampilan minimalis dengan sentuhan warna yang halus (misalnya, biru tua atau abu-abu untuk judul). Mungkin menggunakan layout dua kolom.
-            - **Kreatif**: Lebih berani dalam penggunaan warna dan layout. Mungkin menyertakan ikon di samping informasi kontak.
+            - **Profesional**: Tampilan klasik, bersih, dan formal. Gunakan font sans-serif seperti Arial atau Helvetica. Fokus pada keterbacaan. Judul seksi menggunakan \`border-b-2 pb-1 mb-3\`.
+            - **Modern**: Tampilan minimalis dengan sentuhan warna yang halus (misalnya, \`text-blue-800\` untuk judul). Mungkin menggunakan layout dua kolom dengan \`flex\` atau \`grid\`.
+            - **Kreatif**: Lebih berani dalam penggunaan warna (misalnya, \`bg-teal-500 text-white\` untuk header) dan layout. Mungkin menyertakan ikon Font Awesome di samping informasi kontak.
 
-            PENTING:
-            1.  Gunakan Tailwind CSS untuk styling.
-            2.  Buat ringkasan profesional yang menarik dari data yang diberikan jika ada.
-            3.  Untuk setiap pengalaman kerja, ubah deskripsi menjadi 3-4 poin pencapaian (bullet points) yang kuat dan terukur.
-            4.  Pastikan outputnya adalah kode HTML lengkap yang siap untuk disisipkan ke dalam <div>, jangan sertakan \`<html>\`, \`<head>\`, atau \`<body>\`. Cukup mulai dari div pembungkus utama.
+            PERSYARATAN WAJIB:
+            1.  Seluruh output HARUS berupa kode HTML tunggal yang siap disisipkan ke dalam \`<div>\`. Jangan sertakan tag \`<html>\`, \`<head>\`, atau \`<body>\`.
+            2.  Bungkus seluruh CV dalam satu \`div\` utama dengan padding yang cukup, contoh: \`<div class="p-8 break-words">\`. Gunakan class \`break-words\` untuk memastikan teks tidak keluar dari kontainer.
+            3.  Buat ringkasan profesional yang menarik dan persuasif dari data yang diberikan.
+            4.  Untuk setiap pengalaman kerja, ubah deskripsi menjadi 3-4 poin pencapaian (bullet points) dalam bentuk \`<ul>\` dengan class \`list-disc list-inside\` dan \`<li>\`. Gunakan kata kerja aktif.
+            5.  Pastikan semua bagian (Kontak, Ringkasan, Pengalaman, Pendidikan, Keterampilan) memiliki judul yang jelas dan diberi jarak yang cukup (misalnya, \`mb-4\` atau \`mb-6\`).
             
             Berikut adalah data pengguna:
             
@@ -351,14 +360,24 @@
             const element = document.getElementById('cv-output');
             const fullName = document.getElementById('fullName').value || 'cv';
             const opt = {
-              margin:       0.5,
+              margin:       0.2,
               filename:     `${fullName.replace(/\s+/g, '_').toLowerCase()}_cv.pdf`,
-              image:        { type: 'jpeg', quality: 0.98 },
-              html2canvas:  { scale: 2, useCORS: true },
+              image:        { type: 'jpeg', quality: 1.0 },
+              html2canvas:  { scale: 3, useCORS: true, logging: false },
               jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
             };
 
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save().then(() => {
+                 Swal.fire({
+                      toast: true,
+                      position: 'top-end',
+                      icon: 'success',
+                      title: 'Unduhan PDF telah dimulai!',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                    });
+            });
         }
     });
     </script>
